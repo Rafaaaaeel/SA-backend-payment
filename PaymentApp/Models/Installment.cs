@@ -5,8 +5,10 @@ namespace PaymentApp.Models
         public int Id { get; set; }
         public string Colour { get; set; } = string.Empty;
         public Decimal Value { get; set; }
-        public Parcel? Parcel { get; set; }
-        public ICollection<Tag>? Tags { get; set; }
-        public DateTime CreationDate { get; set; }
+        public DateTime? initial { get; set; }
+        public DateTime? final { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public ICollection<PaymentInstallment>? PaymentInstallments { get; set; }
+        public ICollection<InstallmentTag>? Tags { get; set; }
     }
 }

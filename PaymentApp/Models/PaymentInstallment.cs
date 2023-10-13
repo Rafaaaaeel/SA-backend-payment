@@ -5,6 +5,6 @@ namespace PaymentApp.Models
         public int PaymentId { get; set; }
         public int InstallementId { get; set; }
         public Payment? Payment { get; set; }
-        public ICollection<Installment>? Installments { get; set; }
+        public Installment? Installment { get; set; }
     }
 }

@@ -3,8 +3,9 @@ using PaymentApp.Services;
 
 namespace PaymentApp.Controllers 
 {
-    [Controller]
+    
     [Route("/api/[controller]")]
+    [ApiController]
     public class PaymentController : ControllerBase 
     {
         private readonly IPaymentService _service;

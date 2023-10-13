@@ -7,5 +7,6 @@ namespace PaymentApp.Models
         public string? Description { get; set; }
         public ICollection<Installment>? installments { get; set; }
         public DateTime CreationDate { get; set; }
+        public ICollection<PaymentInstallment>? PaymentInstallment { get; set; }
     }
 }

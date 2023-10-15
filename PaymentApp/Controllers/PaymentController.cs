@@ -1,10 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PaymentApp.Services;
 
 namespace PaymentApp.Controllers 
 {
-    [Route("/api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PaymentController : ControllerBase 
     {
         private readonly IPaymentService _service;
@@ -14,5 +16,10 @@ namespace PaymentApp.Controllers
             _service = service;
         }
         
+        [HttpGet]
+        public async Task<ActionResult> AllPayments()
+        {
+            return Ok();
+        }
     }
 }

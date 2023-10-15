@@ -3,7 +3,7 @@ namespace PaymentApp.Models
     public class Installment 
     {
         public int Id { get; set; }
-        public Decimal Value { get; set; }
+        public decimal Value { get; set; }
         public int? Total { get; set; }
         public DateTime? Initial { get; set; }
         public DateTime? Final { get; set; }

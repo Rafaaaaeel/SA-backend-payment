@@ -20,7 +20,7 @@ namespace PaymentApp.Data
 
             modelBuilder.Entity<PaymentInstallment>()
                 .HasOne(p => p.Payment)
-                .WithMany(p => p.PaymentInstallment)
+                .WithMany(p => p.PaymentInstallments)
                 .HasForeignKey( p=> p.PaymentId);
 
             modelBuilder.Entity<PaymentInstallment>()

@@ -14,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IPaymentService, MockPaymentService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 builder.Services.AddDbContext<PaymentContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

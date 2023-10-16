@@ -5,6 +5,6 @@ namespace PaymentApp.Models
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Colour { get; set; } = string.Empty;
-        public IEnumerable<InstallmentTag>? InstallmentTags { get; set; }
+        public ICollection<InstallmentTag>? InstallmentTags { get; set; }
     }
 }

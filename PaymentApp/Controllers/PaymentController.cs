@@ -21,6 +21,7 @@ namespace PaymentApp.Controllers
         [HttpGet]
         public async Task<ActionResult> AllPayments()
         {
+            await _service.GetAllPayments(GetUserEmail());
             return Ok();
         }
 

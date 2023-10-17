@@ -8,7 +8,7 @@ namespace PaymentApp.Models
         public DateTime? Initial { get; set; }
         public DateTime? Final { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
-        public IEnumerable<PaymentInstallment>? PaymentInstallments { get; set; }
-        public IEnumerable<InstallmentTag>? Tags { get; set; }
+        public required Payment Payment { get; set; }
+        public ICollection<Tag>? Tags { get; set; }
     }
 }

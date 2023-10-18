@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +16,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 builder.Services.AddDbContext<PaymentContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt => {
     opt.TokenValidationParameters = new TokenValidationParameters 

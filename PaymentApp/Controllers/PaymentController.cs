@@ -1,7 +1,8 @@
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PaymentApp.Dto.Create;
+using PaymentApp.Dto.Read;
 using PaymentApp.Services;
 
 namespace PaymentApp.Controllers 
@@ -19,9 +20,19 @@ namespace PaymentApp.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult> AllPayments()
+        public ActionResult<ReadPaymentDto> AllPayments()
         {
-            await _service.GetAllPayments(GetUserEmail());
+            var payments = _service.GetAllPayments(GetUserEmail());
+
+            return Ok(payments);
+        }
+
+        [HttpPost("create")]
+        public async Task<ActionResult> CreatePayment(CreatePaymentDto request)
+        {
+            
+            await _service.CreatePayment(request);
+
             return Ok();
         }
 

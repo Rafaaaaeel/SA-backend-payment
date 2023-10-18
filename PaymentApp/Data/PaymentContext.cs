@@ -9,6 +9,5 @@ namespace PaymentApp.Data
         public DbSet<Payment> Payment { get; set; }
         public DbSet<Installment> Installment { get; set; }
         public DbSet<Tag> Tag { get; set; }
-        
     }
 }

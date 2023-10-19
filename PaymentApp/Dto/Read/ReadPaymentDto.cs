@@ -9,6 +9,6 @@ namespace PaymentApp.Dto.Read
         public required string Image { get; set; }
         public string? Description { get; set; }
         public decimal Total { get; set; } = 0;
-        public ICollection<Installment> Installments { get; set; } = new HashSet<Installment>();
+        public ICollection<ReadInstallementDto> Installments { get; set; } = new HashSet<ReadInstallementDto>();
     }
 }

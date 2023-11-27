@@ -20,7 +20,7 @@ namespace PaymentApp.Controllers
         }
         
         [HttpGet]
-        public ActionResult<ReadPaymentDto> AllPayments()
+        public ActionResult<IEnumerable<ReadPaymentDto>> AllPayments()
         {
             var payments = _service.GetAllPayments(GetUserEmail());
 

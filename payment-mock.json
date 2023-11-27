@@ -1,0 +1,47 @@
+{
+    "data": [
+        {
+          "name": "C6 Rodrigo",
+          "colour": "fffcfc",
+          "image": "c6",
+          "description": "•••• 9872",
+          "total": 0,
+          "installments": [
+            {
+              "value": 0,
+              "total": 0,
+              "initial": "2023-11-27T09:23:06.833Z",
+              "final": "2023-11-27T09:23:06.833Z",
+              "tags": [
+                {
+                  "name": "string",
+                  "colour": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+            "name": "Nubank Rodrigo",
+            "colour": "612F74",
+            "image": "nubank",
+            "description": "•••• 5076",
+            "total": 0,
+            "installments": [
+              {
+                "value": 0,
+                "total": 0,
+                "initial": "2023-11-27T09:23:06.833Z",
+                "final": "2023-11-27T09:23:06.833Z",
+                "tags": [
+                  {
+                    "name": "string",
+                    "colour": "string"
+                  }
+                ]
+              }
+            ]
+          }
+      ]
+
+}

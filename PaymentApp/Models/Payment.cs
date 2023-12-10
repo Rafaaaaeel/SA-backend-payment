@@ -4,6 +4,7 @@ namespace PaymentApp.Models
     {
         public int Id { get; set; }
         public required string Name { get; set; }
+        public required string BackgroundColor { get; set; }
         public required string Colour { get; set; }
         public required string Image { get; set; }
         public string? Description { get; set; }

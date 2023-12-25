@@ -7,7 +7,7 @@ using PaymentApp.Services;
 
 namespace PaymentApp.Controllers 
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     [Authorize]
     public class PaymentController : ControllerBase 
@@ -19,15 +19,21 @@ namespace PaymentApp.Controllers
             _service = service;
         }
         
-        [HttpGet]
-        public ActionResult<IEnumerable<ReadPaymentDto>> AllPayments()
+        [HttpGet("payments")]
+        public ActionResult<IEnumerable<ReadPaymentDto>> GetAllPayments()
         {
             var payments = _service.GetAllPayments(GetUserEmail());
 
             return Ok(payments);
         }
 
-        [HttpPost("create")]
+        [HttpGet("payments/{id}/installments")]
+        public async Task<ActionResult> GetInstallmnetsFromPaymnet()
+        {
+            return NoContent();
+        }
+
+        [HttpPost("payments")]
         public async Task<ActionResult> CreatePayment(CreatePaymentDto request)
         {
             

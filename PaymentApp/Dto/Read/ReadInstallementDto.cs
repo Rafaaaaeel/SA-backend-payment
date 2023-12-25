@@ -10,6 +10,6 @@ namespace PaymentApp.Dto.Read
         public int? Total { get; set; }
         public required int Quantity { get; set; }
         public DateTime? Date { get; set; }
-        public ICollection<ReadTagDto>? Tags { get; set; }
+        // public ICollection<ReadTagDto>? Tags { get; set; }
     }
 }

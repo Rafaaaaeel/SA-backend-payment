@@ -1,0 +1,86 @@
+{
+  "data": [
+      {
+        "name": "Nubank",
+        "backgroundColor": "8A05BE",
+        "colour": "8A05BE",
+        "image": "nubank",
+        "description": "•••• 5067",
+        "total": 1599.62,
+        "installments": [
+          {
+            "name": "Emprestimo",
+            "description": "mercado Pago",
+            "value": 123.38,
+            "total": 1233.8,
+            "initial": "2023-12-08T09:43:51.570Z",
+            "quantity": 10
+          },
+          {
+              "name": "Rack & Sofa",
+              "description": "Moblu",
+              "value": 209.63,
+              "total": 2096.3,
+              "date": "2023-12-08T09:43:51.570Z",
+              "quantity": 10
+            },
+            {
+              "name": "Emprestimo",
+              "description": "mercado Pago",
+              "value": 132.19,
+              "total": 1321.9,
+              "date": "2023-12-08T09:43:51.570Z",
+              "quantity": 10
+            },
+            {
+              "name": "Nintendo",
+              "description": "mercado livre",
+              "value": 237.60,
+              "total": 2851.2,
+              "date": "2023-04-05T09:43:51.570Z",
+              "quantity": 12
+            },
+            {
+              "name": "Emprestimo",
+              "description": "mercado pago",
+              "value": 98.20,
+              "total": 785.6,
+              "date": "2022-04-08T09:43:51.570Z",
+              "quantity": 8
+            },
+            {
+              "name": "Sofa",
+              "description": "tok stok",
+              "value": 312.84,
+              "total": 1877.04,
+              "date": "2022-04-08T09:43:51.570Z",
+              "quantity": 6
+            },
+            {
+              "name": "Homepod",
+              "description": "mercado livre",
+              "value": 87.77,
+              "total": 1053.24,
+              "date": "2022-04-08T09:43:51.570Z",
+              "quantity": 12
+            },
+            {
+              "name": "Jogos",
+              "description": "Nuuvem",
+              "value": 93.01,
+              "total": 372.04,
+              "date": "2022-04-08T09:43:51.570Z",
+              "quantity": 4
+            },
+            {
+              "name": "Apple watch",
+              "description": "mercado livre",
+              "value": 305,
+              "total": 3050,
+              "date": "2023-11-08T09:43:51.570Z",
+              "quantity": 10
+            }
+        ]
+      }
+  ]
+}

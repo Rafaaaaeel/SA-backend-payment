@@ -9,7 +9,8 @@ namespace PaymentApp.Models
         public required string Image { get; set; }
         public string? Description { get; set; }
         public decimal Total { get; set; } = 0;
-        public ICollection<Installment> Installments { get; set; } = new HashSet<Installment>();
+        public required int Expiration { get; set; }
+        public ICollection<Month> Months { get; set; } = new HashSet<Month>();
         public DateTime CreationDate { get; set; } = DateTime.UtcNow;
         public required string EmailOwner { get; set; }
     }

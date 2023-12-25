@@ -28,7 +28,7 @@ namespace PaymentApp.Controllers
         }
 
         [HttpGet("payments/{id}/installments")]
-        public async Task<ActionResult> GetInstallmnetsFromPaymnet()
+        public async Task<ActionResult<IEnumerable<ReadInstallementDto>>> GetInstallmnetsFromPaymnet()
         {
             return NoContent();
         }

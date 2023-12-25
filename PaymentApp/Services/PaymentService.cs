@@ -1,5 +1,4 @@
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using PaymentApp.Data;
 using PaymentApp.Dto.Create;
 using PaymentApp.Dto.Read;

@@ -7,7 +7,8 @@ namespace PaymentApp.Data
     {
         public PaymentContext(DbContextOptions<PaymentContext> options) : base(options) { }
         public DbSet<Payment> Payment { get; set; }
+        public DbSet<Month> Month { get; set; }
+        public DbSet<Year> Year { get; set; }
         public DbSet<Installment> Installment { get; set; }
-        public DbSet<Tag> Tag { get; set; }
     }
 }

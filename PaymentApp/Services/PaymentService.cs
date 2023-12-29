@@ -3,6 +3,7 @@ using PaymentApp.Data;
 using PaymentApp.Dto.Create;
 using PaymentApp.Dto.Read;
 using PaymentApp.Models;
+using PaymentApp.Helper;
 
 namespace PaymentApp.Services
 {
@@ -11,6 +12,7 @@ namespace PaymentApp.Services
 
         private readonly PaymentContext _context;
         private readonly IMapper _mapper;
+        // private readonly YearHelper helper = new YearHelper();
 
         public PaymentService(PaymentContext context, IMapper mapper)
         {
@@ -18,11 +20,38 @@ namespace PaymentApp.Services
             _mapper = mapper;
         }
 
-        public async Task CreatePayment(CreatePaymentDto request)
+        public IEnumerable<ReadPaymentDto> GetAllPayments(string email)
         {
-            Payment payment = _mapper.Map<Payment>(request);
+
+            try
+            {
+                IEnumerable<ReadPaymentDto> payments = _mapper.Map<IEnumerable<ReadPaymentDto>>(_context.Card.ToList().FindAll(p => p.EmailOwner == email));
+                return payments;
+            } catch 
+            {
+                Console.WriteLine("Something Went Wrong");
+                return new HashSet<ReadPaymentDto>();
+            }
+        
+        }
+        
+
+        public ReadPaymentDto GetPayment(string email, int id) 
+        {
+            IEnumerable<ReadPaymentDto> payments = GetAllPayments(email);
+
+            ReadPaymentDto? payment = payments.FirstOrDefault(p => p.Id == id);
+
+            if (payment == null) throw new NullReferenceException();
+
+            return payment;
+        } 
+
+        public async Task CreatePayment(CreateCardDto request)
+        {
+            Card payment = _mapper.Map<Card>(request);
             
-            await _context.Payment.AddAsync(payment);
+            await _context.Card.AddAsync(payment);
 
             bool status = await Save();
 
@@ -33,15 +62,12 @@ namespace PaymentApp.Services
             
             return;
         }
-
-        public IEnumerable<ReadPaymentDto> GetAllPayments(string email)
-        {
-
-            IEnumerable<ReadPaymentDto> payments = _mapper.Map<IEnumerable<ReadPaymentDto>>(_context.Payment.ToList().FindAll(p => p.EmailOwner == email));
-            
-            return payments;
-        }
         
+        public async Task CreateInstallment(CreateInstallmentDto request, int id)
+        {
+            // helper.Processor(request);
+        }
+
         private async Task<bool> Save()
         {
             int state = await _context.SaveChangesAsync();

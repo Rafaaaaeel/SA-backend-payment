@@ -6,6 +6,9 @@ namespace PaymentApp.Services
     public interface IPaymentService 
     {
         IEnumerable<ReadPaymentDto> GetAllPayments(string email);
-        Task CreatePayment(CreatePaymentDto request);
+        // Task<ReadPaymentDto> GetPayment(string email, int id);
+        ReadPaymentDto GetPayment(string email, int id);
+        Task CreatePayment(CreateCardDto request);
+        Task CreateInstallment(CreateInstallmentDto request, int id);
     }
 }

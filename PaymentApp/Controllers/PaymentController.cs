@@ -27,14 +27,30 @@ namespace PaymentApp.Controllers
             return Ok(payments);
         }
 
+        [HttpGet("payments/{id}/payment")]
+        public ActionResult<ReadPaymentDto> GetPayment([FromQuery] int id)
+        {
+            string email = GetUserEmail();
+            ReadPaymentDto payment  = _service.GetPayment(email, id);
+
+            return Ok(payment);
+        }
+
         [HttpGet("payments/{id}/installments")]
         public async Task<ActionResult<IEnumerable<ReadInstallementDto>>> GetInstallmnetsFromPaymnet()
         {
             return NoContent();
         }
 
+        [HttpPost("payments/{id}/installments")]
+        public async Task<ActionResult> CreateInstallment([FromBody] CreateInstallmentDto request, [FromQuery] int id)
+        {
+            await _service.CreateInstallment(request, id);
+            return NoContent();
+        }
+        
         [HttpPost("payments")]
-        public async Task<ActionResult> CreatePayment(CreatePaymentDto request)
+        public async Task<ActionResult> CreatePayment([FromBody] CreateCardDto request)
         {
             
             await _service.CreatePayment(request);

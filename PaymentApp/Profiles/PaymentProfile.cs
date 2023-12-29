@@ -9,11 +9,10 @@ namespace PaymentApp.Profiles
     {
         public PaymentProfile()
         {
-            CreateMap<CreatePaymentDto, Payment>();
-
+            CreateMap<ReadDataDto, Card>();
+            CreateMap<CreateCardDto, Card>();
             CreateMap<CreateInstallmentDto, Installment>();
-            
-            CreateMap<Payment, ReadPaymentDto>();
+            CreateMap<Card, ReadPaymentDto>();
         }
     }
 }

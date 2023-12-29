@@ -1,6 +1,6 @@
 namespace PaymentApp.Dto.Create
 {
-    public class CreatePaymentDto
+    public class CreateCardDto
     {
         public required string Name { get; set; }
         public required string Colour { get; set; }

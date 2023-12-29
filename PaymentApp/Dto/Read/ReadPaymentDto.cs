@@ -1,9 +1,8 @@
-using PaymentApp.Models;
-
 namespace PaymentApp.Dto.Read
 {
     public class ReadPaymentDto
     {
+        public required int Id { get; set; }
         public required string Name { get; set; }
         public required string Colour { get; set; }
         public required string BackgroundColor { get; set; }

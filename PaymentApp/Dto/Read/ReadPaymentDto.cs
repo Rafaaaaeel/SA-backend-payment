@@ -1,3 +1,5 @@
+using PaymentApp.Models;
+
 namespace PaymentApp.Dto.Read
 {
     public class ReadPaymentDto
@@ -10,6 +12,6 @@ namespace PaymentApp.Dto.Read
         public string? Description { get; set; }
         public decimal Total { get; set; } = 0;
         public required int Expiration { get; set; }
-        public ICollection<ReadMonthDto> Months { get; set; } = new HashSet<ReadMonthDto>();
+        public ICollection<Month> months { get; set; } = new HashSet<Month>();
     }
 }

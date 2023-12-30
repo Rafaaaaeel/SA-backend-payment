@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PaymentApp.Dto.Create;
 using PaymentApp.Dto.Read;
+using PaymentApp.Models;
 using PaymentApp.Services;
 
 namespace PaymentApp.Controllers 
@@ -20,17 +21,20 @@ namespace PaymentApp.Controllers
         }
         
         [HttpGet("payments")]
-        public ActionResult<IEnumerable<ReadPaymentDto>> GetAllPayments()
+        public ActionResult<IEnumerable<Card>> GetAllPayments()
         {
-            var payments = _service.GetAllPayments(GetUserEmail());
+            string email = GetUserEmail();
 
-            return Ok(payments);
+            IEnumerable<Card> cards = _service.GetAllPayments(email);
+
+            return Ok(cards);
         }
 
         [HttpGet("payments/{id}/payment")]
-        public ActionResult<ReadPaymentDto> GetPayment([FromQuery] int id)
+        public ActionResult<ReadPaymentDto> GetPayment(int id)
         {
             string email = GetUserEmail();
+
             ReadPaymentDto payment  = _service.GetPayment(email, id);
 
             return Ok(payment);
@@ -43,9 +47,12 @@ namespace PaymentApp.Controllers
         }
 
         [HttpPost("payments/{id}/installments")]
-        public async Task<ActionResult> CreateInstallment([FromBody] CreateInstallmentDto request, [FromQuery] int id)
+        public async Task<ActionResult> CreateInstallment([FromBody] CreateInstallmentDto request, [FromRoute] int id)
         {
-            await _service.CreateInstallment(request, id);
+            string email = GetUserEmail();
+
+            await _service.CreateInstallment(request, id, email);
+
             return NoContent();
         }
         

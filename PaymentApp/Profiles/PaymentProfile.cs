@@ -13,6 +13,7 @@ namespace PaymentApp.Profiles
             CreateMap<CreateCardDto, Card>();
             CreateMap<CreateInstallmentDto, Installment>();
             CreateMap<Card, ReadPaymentDto>();
+            CreateMap<CreateMonthDto, Month>();
         }
     }
 }

@@ -4,6 +4,7 @@ using PaymentApp.Dto.Create;
 using PaymentApp.Dto.Read;
 using PaymentApp.Models;
 using PaymentApp.Helper;
+using Microsoft.EntityFrameworkCore;
 
 namespace PaymentApp.Services
 {
@@ -20,25 +21,22 @@ namespace PaymentApp.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<ReadPaymentDto> GetAllPayments(string email)
+        public IEnumerable<Card> GetAllPayments(string email)
         {
-
             try
             {
-                IEnumerable<ReadPaymentDto> payments = _mapper.Map<IEnumerable<ReadPaymentDto>>(_context.Card.ToList().FindAll(p => p.EmailOwner == email));
-                return payments;
+                IEnumerable<Card> cards = _context.Card.Include(c => c.Months).ToList().FindAll(p => p.EmailOwner == email);
+
+                return cards;
             } catch 
             {
-                Console.WriteLine("Something Went Wrong");
-                return new HashSet<ReadPaymentDto>();
+                return new HashSet<Card>();
             }
-        
         }
         
-
         public ReadPaymentDto GetPayment(string email, int id) 
         {
-            IEnumerable<ReadPaymentDto> payments = GetAllPayments(email);
+            IEnumerable<ReadPaymentDto> payments = _mapper.Map<IEnumerable<ReadPaymentDto>>(GetAllPayments(email));
 
             ReadPaymentDto? payment = payments.FirstOrDefault(p => p.Id == id);
 
@@ -63,9 +61,29 @@ namespace PaymentApp.Services
             return;
         }
         
-        public async Task CreateInstallment(CreateInstallmentDto request, int id)
+        public async Task CreateInstallment(CreateInstallmentDto request, int id, string email)
         {
             // helper.Processor(request);
+            Card? card = GetCard(id);
+
+            if (card == null) throw new NullReferenceException();
+
+            CreateMonthDto monthDto = new CreateMonthDto() { Name = "Jan" };
+            
+            Month month =  _mapper.Map<Month>(monthDto);
+            
+            month.Card = _mapper.Map<Card>(card);
+            
+            _context.Month.Add(month);
+            
+            await Save();
+
+            return;
+        }
+
+        private Card? GetCard(int id)
+        {
+            return _context.Card.FirstOrDefault(c => c.Id == id);
         }
 
         private async Task<bool> Save()

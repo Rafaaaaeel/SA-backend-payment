@@ -12,6 +12,5 @@ namespace PaymentApp.Dto.Read
         public string? Description { get; set; }
         public decimal Total { get; set; } = 0;
         public required int Expiration { get; set; }
-        public ICollection<Month> months { get; set; } = new HashSet<Month>();
     }
 }

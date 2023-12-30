@@ -10,7 +10,7 @@ using PaymentApp.Data;
 
 namespace PaymentApp.Migrations
 {
-    [DbContext(typeof(PaymentContext))]
+    [DbContext(typeof(CardContext))]
     partial class PaymentContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

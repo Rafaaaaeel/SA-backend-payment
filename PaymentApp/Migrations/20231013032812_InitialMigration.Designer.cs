@@ -11,7 +11,7 @@ using PaymentApp.Data;
 
 namespace PaymentApp.Migrations
 {
-    [DbContext(typeof(PaymentContext))]
+    [DbContext(typeof(CardContext))]
     [Migration("20231013032812_InitialMigration")]
     partial class InitialMigration
     {

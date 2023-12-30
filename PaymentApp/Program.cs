@@ -1,4 +1,5 @@
-using PaymentApp.Services;
+using PaymentApp.Repositories;
+using PaymentApp.Interfaces;
 using PaymentApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,9 +15,11 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<ICardRepository, CardRepository>();
 
-builder.Services.AddDbContext<PaymentContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IInstallmentsRepository, InstallmentsRepository>();
+
+builder.Services.AddDbContext<CardContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

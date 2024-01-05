@@ -3,7 +3,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PaymentApp.Dto.Create;
-using PaymentApp.Dto.Read;
 using PaymentApp.Models;
 using PaymentApp.Interfaces;
 
@@ -24,6 +23,7 @@ namespace PaymentApp.Controllers
         }
         
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
         public ActionResult<IEnumerable<Card>> GetAllCards()
         {
             string email = GetUserEmail();
@@ -34,6 +34,7 @@ namespace PaymentApp.Controllers
         }
 
         [HttpGet("{id}/card")]
+        [ProducesResponseType(200, Type = typeof(Card))]
         public async Task<ActionResult<Card>> GetCard(int id)
         {
             Card card  = await _repository.GetCard(id);
@@ -42,18 +43,54 @@ namespace PaymentApp.Controllers
         }
         
         [HttpPost]
+        [ProducesResponseType(204)]
         public async Task<ActionResult> CreateCard([FromBody] CreateCardDto request)
         {
             Card card = _mapper.Map<Card>(request);
             
             await _repository.CreateCard(card);
 
-            return Ok();
+            return NoContent();
         }
 
-        private string GetUserEmail() 
-        {   
-            return HttpContext.User.Claims.Single(x => x.Type == ClaimTypes.Email).Value;
+        [HttpDelete("{id}/card")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult> DeleteCard([FromRoute] int id)
+        {
+            try 
+            {
+                Card card = await _repository.GetCard(id);
+
+                await _repository.DeleteCard(card);
+
+                return NoContent();
+            } catch
+            {
+                return NotFound();
+            }
+            
         }
+
+        [HttpDelete("{id}/installments")]
+        public async Task<ActionResult> DeleteAllInstallmentFromCard([FromRoute]int id)
+        {
+            await _repository.DeleteAllInstallmentsFromCard(id);
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}/card")]
+        [ProducesResponseType(204)]
+        public async Task<ActionResult> UpdateCard([FromBody] UpdateCardDto request)
+        {
+            Card card = _mapper.Map<Card>(request);
+
+            await _repository.UpdateCard(card);
+
+            return NoContent();
+        }
+
+        private string GetUserEmail() => HttpContext.User.Claims.Single(x => x.Type == ClaimTypes.Email).Value;
     }
 }

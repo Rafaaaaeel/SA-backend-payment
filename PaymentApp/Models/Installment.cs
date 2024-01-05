@@ -10,6 +10,6 @@ namespace PaymentApp.Models
         public required int Quantity { get; set; }
         public DateTime? Date { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
-        public required Month Month { get; set; }
+        public required Year Year { get; set; }
     }
 }

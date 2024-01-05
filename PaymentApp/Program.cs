@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
+using PaymentApp.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 
 builder.Services.AddScoped<IInstallmentsRepository, InstallmentsRepository>();
+
+builder.Services.AddScoped<IDateHelper, DateHelper>();
 
 builder.Services.AddDbContext<CardContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

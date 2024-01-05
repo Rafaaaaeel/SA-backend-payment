@@ -1,9 +1,9 @@
-using PaymentApp.Dto.Create;
+using PaymentApp.Models;
 
 namespace PaymentApp.Interfaces
 {
     public interface IInstallmentsRepository
     {
-        Task CreateInstallment(CreateInstallmentDto request, int id);
+        Task CreateInstallmentForCard(Installment request, int id);
     }
 }

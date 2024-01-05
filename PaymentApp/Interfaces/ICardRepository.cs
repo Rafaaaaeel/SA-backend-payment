@@ -9,5 +9,8 @@ namespace PaymentApp.Interfaces
         IEnumerable<Card> GetAllCards(string email);
         Task<Card> GetCard(int id);
         Task CreateCard(Card card);
+        Task DeleteCard(Card card);
+        Task DeleteAllInstallmentsFromCard(int id);
+        Task UpdateCard(Card card);
     }
 }

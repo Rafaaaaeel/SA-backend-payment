@@ -42,16 +42,9 @@ namespace PaymentApp.Repositories
      
                 if (month != null) 
                 {
-                    Year newYear = CreateYear(month, yearName);    
+                    Year newYear = await CreateYear(month, yearName);    
 
-                    await _context.AddAsync(newYear);
-
-                    Installment installment2 = new Installment() { Name = installment.Name,
-                                                                    Year = newYear, Date = installment.Date,
-                                                                    Quantity = installment.Quantity, 
-                                                                    Description = installment.Description};
-
-                    await _context.AddAsync(installment2);
+                    await CreateInstallment(installment, newYear);
 
                     await Save();
 
@@ -62,22 +55,15 @@ namespace PaymentApp.Repositories
 
                 await _context.AddAsync(newMonth);
                 
-                Year year = CreateYear(newMonth, yearName);
-                
-                await _context.AddAsync(year);
+                Year year = await CreateYear(newMonth, yearName);
 
-                Installment installment1 = new Installment() { Name = installment.Name, 
-                                                                Year = year, Date = installment.Date, 
-                                                                Quantity = installment.Quantity, 
-                                                                Description = installment.Description};
-
-                await _context.AddAsync(installment1);
+                await CreateInstallment(installment, year);
 
                 await Save();
             }
         }
 
-        private Year CreateYear(Month month, string yearName) 
+        private async Task<Year> CreateYear(Month month, string yearName) 
         {
             Year? year = month.Year.FirstOrDefault(m => m.Name == yearName);
 
@@ -85,8 +71,22 @@ namespace PaymentApp.Repositories
             
             Year newYear = new Year() { Name = yearName, Month = month };
 
+            await _context.AddAsync(newYear);
+
+            await Save();
+
             return newYear;
-        }   
+        }
+
+        private async Task CreateInstallment(Installment installment, Year year) {
+
+            Installment newInstallment = new Installment() { Name = installment.Name, Year = year, Date = installment.Date, Value = installment.Value, Quantity = installment.Quantity };
+
+            await _context.AddAsync(newInstallment);
+
+            await Save();
+
+        }
 
         private async Task Save() => await _context.SaveChangesAsync();
     }

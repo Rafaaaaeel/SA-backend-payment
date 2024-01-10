@@ -24,7 +24,6 @@ namespace PaymentApp.Controllers
         [HttpPost("{id}/installment")]
         public async Task<ActionResult> CreateInstallment([FromBody] CreateInstallmentDto request, [FromRoute] int id)
         {
-            
             Installment installment = _mapper.Map<Installment>(request);
 
             await _repository.CreateInstallmentForCard(installment, id);

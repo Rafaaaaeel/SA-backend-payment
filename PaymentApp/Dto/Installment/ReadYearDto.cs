@@ -1,4 +1,4 @@
-namespace PaymentApp.Dto.Read
+namespace PaymentApp.Dto.Installment
 {
     public class ReadDataDto
     {

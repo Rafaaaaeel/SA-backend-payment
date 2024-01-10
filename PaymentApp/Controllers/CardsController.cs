@@ -2,7 +2,7 @@ using System.Security.Claims;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PaymentApp.Dto.Create;
+using PaymentApp.Dto.Card;
 using PaymentApp.Models;
 using PaymentApp.Interfaces;
 

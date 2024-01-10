@@ -1,5 +1,3 @@
-using PaymentApp.Dto.Read;
-using PaymentApp.Dto.Create;
 using PaymentApp.Models;
 
 namespace PaymentApp.Interfaces

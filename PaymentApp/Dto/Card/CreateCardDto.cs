@@ -1,4 +1,4 @@
-namespace PaymentApp.Dto.Create
+namespace PaymentApp.Dto.Card
 {
     public class CreateCardDto
     {

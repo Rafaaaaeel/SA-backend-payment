@@ -1,8 +1,6 @@
-using PaymentApp.Models;
-
-namespace PaymentApp.Dto.Read
+namespace PaymentApp.Dto.Card
 {
-    public class ReadPaymentDto
+    public class ReadCardDto
     {
         public required int Id { get; set; }
         public required string Name { get; set; }

@@ -1,6 +1,6 @@
 using AutoMapper;
-using PaymentApp.Dto.Create;
-using PaymentApp.Dto.Read;
+using PaymentApp.Dto.Card;
+using PaymentApp.Dto.Installment;
 using PaymentApp.Models;
 
 namespace PaymentApp.Profiles
@@ -12,8 +12,7 @@ namespace PaymentApp.Profiles
             CreateMap<ReadDataDto, Card>();
             CreateMap<CreateCardDto, Card>();
             CreateMap<CreateInstallmentDto, Installment>();
-            CreateMap<Card, ReadPaymentDto>();
-            CreateMap<CreateMonthDto, Month>();
+            CreateMap<Card, ReadCardDto>();
             CreateMap<UpdateCardDto, Card>();
         }
     }

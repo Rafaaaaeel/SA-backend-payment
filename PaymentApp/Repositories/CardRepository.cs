@@ -63,7 +63,6 @@ namespace PaymentApp.Repositories
             Card? card = await FetchCardById(id);
 
             if(card == null) throw new NullReferenceException();
-
             
             card.Months.ToList().ForEach(m => _context.Month.Remove(m));
 

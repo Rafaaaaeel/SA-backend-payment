@@ -2,6 +2,7 @@ using PaymentApp.Interfaces;
 using PaymentApp.Data;
 using PaymentApp.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace PaymentApp.Repositories
 {
@@ -22,6 +23,8 @@ namespace PaymentApp.Repositories
 
             if (card == null) return;
             
+            await AppendTotalToCard(card, request);
+
             await CreateAllInstallmentAtMonths(request.Quantity, request.Date ?? DateTime.Now, card, request);
         }
         
@@ -87,6 +90,8 @@ namespace PaymentApp.Repositories
         }
 
         private async Task CreateInstallment(Installment installment, Year year) {
+            
+            await AppendTotalCurrentYear(year, installment);
 
             Installment newInstallment = new Installment() 
             { 
@@ -103,6 +108,24 @@ namespace PaymentApp.Repositories
 
             await Save();
 
+        }
+
+        private async Task AppendTotalToCard(Card card, Installment installment)
+        {
+            card.Total += installment.Total;
+
+            _context.Update(card);
+
+            await Save();
+        }
+
+        private async Task AppendTotalCurrentYear(Year year, Installment installment)
+        {
+            year.Total += installment.Value;
+
+            _context.Update(year);
+
+            await Save();
         }
         private async Task Save() => await _context.SaveChangesAsync();
     }

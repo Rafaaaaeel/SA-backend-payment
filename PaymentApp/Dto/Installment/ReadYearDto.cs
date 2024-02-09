@@ -1,6 +1,6 @@
 namespace PaymentApp.Dto.Installment
 {
-    public class ReadDataDto
+    public class ReadYearDto
     {
         public required string Name { get; set; }
         public int? Total { get; set; }

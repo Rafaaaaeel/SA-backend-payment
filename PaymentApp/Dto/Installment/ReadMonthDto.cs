@@ -4,6 +4,6 @@ namespace PaymentApp.Dto.Installment
     {
         public int Id { get; set; }
         public required string Name { get; set; }
-        public ICollection<ReadDataDto> Year { get; set; } = new HashSet<ReadDataDto>();
+        public ICollection<ReadYearDto> Year { get; set; } = new HashSet<ReadYearDto>();
     }
 }

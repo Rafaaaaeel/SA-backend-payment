@@ -1,3 +1,5 @@
+using PaymentApp.Dto.Installment;
+
 namespace PaymentApp.Dto.Card
 {
     public class ReadCardDto
@@ -10,5 +12,6 @@ namespace PaymentApp.Dto.Card
         public string? Description { get; set; }
         public decimal Total { get; set; } = 0;
         public required int Expiration { get; set; }
+        public ICollection<ReadMonthDto> installments = new HashSet<ReadMonthDto>();
     }
 }

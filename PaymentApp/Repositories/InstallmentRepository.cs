@@ -2,7 +2,6 @@ using PaymentApp.Interfaces;
 using PaymentApp.Data;
 using PaymentApp.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 
 namespace PaymentApp.Repositories
 {
@@ -27,6 +26,33 @@ namespace PaymentApp.Repositories
 
             await CreateAllInstallmentAtMonths(request.Quantity, request.Date ?? DateTime.Now, card, request);
         }
+
+        public async Task DeleteInstallment(int installmentId, int cardId) 
+        {
+            Card? card = await FetchCardById(cardId);
+            
+            Installment installment = await GetInstallment(installmentId);
+
+            if (card == null) throw new NullReferenceException();
+        }
+
+        public async Task DeleteOccurenceInstallment(int id) 
+        {
+            Installment installment = await GetInstallment(id);
+
+            _context.Remove(installment);
+        }
+
+        public async Task<Installment> GetInstallment(int id) 
+        {
+            Installment? installment = await _context.Installment.FirstOrDefaultAsync(i => i.Id == id);
+
+            if (installment == null) throw new NullReferenceException();
+
+            return installment;
+        }
+
+        private bool IsTheSameInstallment(Installment right, Installment left) => right.Name == left.Name && right.Value == left.Value && right.Quantity == left.Quantity;
         
         private async Task<Card?> FetchCardById(int id) => await _context.Card.Include(c => c.Months)
                                                                                 .ThenInclude(m => m.Year)
@@ -91,7 +117,7 @@ namespace PaymentApp.Repositories
 
         private async Task CreateInstallment(Installment installment, Year year) {
             
-            await AppendTotalCurrentYear(year, installment);
+            await AppendTotalToYear(year, installment);
 
             Installment newInstallment = new Installment() 
             { 
@@ -107,7 +133,6 @@ namespace PaymentApp.Repositories
             await _context.AddAsync(newInstallment);
 
             await Save();
-
         }
 
         private async Task AppendTotalToCard(Card card, Installment installment)
@@ -119,7 +144,7 @@ namespace PaymentApp.Repositories
             await Save();
         }
 
-        private async Task AppendTotalCurrentYear(Year year, Installment installment)
+        private async Task AppendTotalToYear(Year year, Installment installment)
         {
             year.Total += installment.Value;
 

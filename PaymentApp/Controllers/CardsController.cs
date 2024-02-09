@@ -35,11 +35,12 @@ namespace PaymentApp.Controllers
 
         [HttpGet("{id}/card")]
         [ProducesResponseType(200, Type = typeof(Card))]
-        public async Task<ActionResult<Card>> GetCard(int id)
+        public async Task<ActionResult<ReadCardDto>> GetCard(int id)
         {
             Card card  = await _repository.GetCard(id);
 
-            return Ok(card);
+            ReadCardDto cardDto = _mapper.Map<ReadCardDto>(card);
+            return Ok(cardDto);
         }
         
         [HttpPost]

@@ -7,6 +7,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
 using PaymentApp.Helpers;
+using AutoMapper;
+using PaymentApp.Models;
+using PaymentApp.Dto.Card;
+using PaymentApp.Dto.Installment;
 
 var builder = WebApplication.CreateBuilder(args);
 

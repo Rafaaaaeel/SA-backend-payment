@@ -3,16 +3,20 @@ using PaymentApp.Models;
 using Microsoft.EntityFrameworkCore;
 using PaymentApp.Interfaces;
 using System.Security.Claims;
+using AutoMapper;
+using PaymentApp.Dto.Card;
 
 namespace PaymentApp.Repositories
 {
     public class CardRepository : ICardRepository
     {
         private readonly CardContext _context;
+        private readonly IMapper _mapper;
 
-        public CardRepository(CardContext context)
+        public CardRepository(CardContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public IEnumerable<Card> GetAllCards(string email)
@@ -44,8 +48,10 @@ namespace PaymentApp.Repositories
             return card;
         } 
 
-        public async Task CreateCard(Card card)
+        public async Task CreateCard(CreateCardDto request)
         {   
+            Card card = _mapper.Map<Card>(request);
+
             await _context.Card.AddAsync(card);
 
             await Save();
@@ -69,8 +75,10 @@ namespace PaymentApp.Repositories
             await Save();
         }
 
-        public async Task UpdateCard(Card card)
+        public async Task UpdateCard(UpdateCardDto request)
         {
+            Card card = _mapper.Map<Card>(request);
+            
             _context.Update(card);
 
             await Save();

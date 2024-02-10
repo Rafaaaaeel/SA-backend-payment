@@ -14,14 +14,16 @@ namespace PaymentApp.Controllers
     public class CardsController : ControllerBase 
     {
         private readonly ICardRepository _repository;
-        private readonly IMapper _mapper;
 
-        public CardsController(ICardRepository repository, IMapper mapper)
+        public CardsController(ICardRepository repository)
         {
             _repository = repository;
-            _mapper = mapper;
         }
         
+        /// <summary>
+        /// It'll get all user cards
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
         public ActionResult<IEnumerable<Card>> GetAllCards()
@@ -33,23 +35,30 @@ namespace PaymentApp.Controllers
             return Ok(cards);
         }
 
+        /// <summary>
+        /// It'll gets only a card
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}/card")]
         [ProducesResponseType(200, Type = typeof(Card))]
-        public async Task<ActionResult<ReadCardDto>> GetCard(int id)
+        public async Task<ActionResult<Card>> GetCard(int id)
         {
             Card card  = await _repository.GetCard(id);
 
-            ReadCardDto cardDto = _mapper.Map<ReadCardDto>(card);
-            return Ok(cardDto);
+            return Ok(card);
         }
         
+        /// <summary>
+        /// Creates 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(204)]
         public async Task<ActionResult> CreateCard([FromBody] CreateCardDto request)
-        {
-            Card card = _mapper.Map<Card>(request);
-            
-            await _repository.CreateCard(card);
+        {   
+            await _repository.CreateCard(request);
 
             return NoContent();
         }
@@ -85,9 +94,7 @@ namespace PaymentApp.Controllers
         [ProducesResponseType(204)]
         public async Task<ActionResult> UpdateCard([FromBody] UpdateCardDto request)
         {
-            Card card = _mapper.Map<Card>(request);
-
-            await _repository.UpdateCard(card);
+            await _repository.UpdateCard(request);
 
             return NoContent();
         }

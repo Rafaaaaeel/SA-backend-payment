@@ -1,4 +1,5 @@
 using PaymentApp.Models;
+using PaymentApp.Dto.Card;
 
 namespace PaymentApp.Interfaces
 {
@@ -6,9 +7,9 @@ namespace PaymentApp.Interfaces
     {
         IEnumerable<Card> GetAllCards(string email);
         Task<Card> GetCard(int id);
-        Task CreateCard(Card card);
+        Task CreateCard(CreateCardDto request);
         Task DeleteCard(Card card);
         Task DeleteAllInstallmentsFromCard(int id);
-        Task UpdateCard(Card card);
+        Task UpdateCard(UpdateCardDto request);
     }
 }

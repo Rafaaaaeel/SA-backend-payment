@@ -21,5 +21,15 @@ namespace PaymentApp.Profiles
             CreateMap<Year, ReadYearDto>();
         }
 
+        private void InstallmentMapper() 
+        {
+
+        }
+
+        private void CardMapper() 
+        {
+            
+        }
+
     }
 }

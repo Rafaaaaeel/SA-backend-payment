@@ -96,7 +96,7 @@ namespace PaymentApp.Controllers
         {
             await _repository.UpdateCard(request);
 
-            return Ok();
+            return NoContent();
         }
 
         private string GetUserEmail() => HttpContext.User.Claims.Single(x => x.Type == ClaimTypes.Email).Value;

@@ -11,25 +11,33 @@ namespace PaymentApp.Profiles
 
         public PaymentProfile()
         {
-            
-            CreateMap<CreateCardDto, Card>();
-            CreateMap<CreateInstallmentDto, Installment>();
-            CreateMap<Card, ReadCardDto>().ForMember(c => c.Id, opt => opt.MapFrom(src => src.Id));
-            CreateMap<UpdateCardDto, Card>();
-            CreateMap<Month, ReadMonthDto>();
-            CreateMap<Installment, ReadInstallementDto>();
-            CreateMap<Year, ReadYearDto>();
+            InstallmentMapper();
+            CardMapper();
+            MonthMapper();
+            YearMapper();
         }
 
         private void InstallmentMapper() 
         {
-
+            CreateMap<CreateInstallmentDto, Installment>();
+            CreateMap<Installment, ReadInstallementDto>();
         }
 
         private void CardMapper() 
         {
-            
+            CreateMap<CreateCardDto, Card>();
+            CreateMap<Card, ReadCardDto>().ForMember(c => c.Id, opt => opt.MapFrom(src => src.Id));
+            CreateMap<UpdateCardDto, Card>();
+        }
+        
+        private void MonthMapper() 
+        {
+            CreateMap<Month, ReadMonthDto>();
         }
 
+        private void YearMapper() 
+        {
+            CreateMap<Year, ReadYearDto>();
+        }
     }
 }

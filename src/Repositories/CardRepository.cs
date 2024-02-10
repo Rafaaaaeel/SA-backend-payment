@@ -2,7 +2,6 @@ using PaymentApp.Data;
 using PaymentApp.Models;
 using Microsoft.EntityFrameworkCore;
 using PaymentApp.Interfaces;
-using System.Security.Claims;
 using AutoMapper;
 using PaymentApp.Dto.Card;
 
@@ -78,7 +77,7 @@ namespace PaymentApp.Repositories
         public async Task UpdateCard(UpdateCardDto request)
         {
             Card card = _mapper.Map<Card>(request);
-            
+
             _context.Update(card);
 
             await Save();

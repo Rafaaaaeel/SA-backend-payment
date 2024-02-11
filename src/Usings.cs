@@ -11,7 +11,6 @@ global using System.Text;
 global using System.Text.Json.Serialization;
 global using System.Security.Claims;
 
-global using PaymentApp.Data;
 global using PaymentApp.Dto.Installment;
 global using PaymentApp.Models;
 global using PaymentApp.Interfaces;

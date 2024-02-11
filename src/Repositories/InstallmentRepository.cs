@@ -1,8 +1,3 @@
-using PaymentApp.Interfaces;
-using PaymentApp.Data;
-using PaymentApp.Models;
-using Microsoft.EntityFrameworkCore;
-
 namespace PaymentApp.Repositories
 {
     public class InstallmentsRepository : IInstallmentsRepository

@@ -60,26 +60,11 @@ public class CardsController : ControllerBase
     [ProducesResponseType(404)]
     public async Task<ActionResult> DeleteCard([FromRoute] int id)
     {
-        try 
-        {
-            Card card = await _repository.GetCard(id);
+        Card card = await _repository.GetCard(id);
 
-            await _repository.DeleteCard(card);
+        await _repository.DeleteCard(card);
 
-            return NoContent();
-        } catch
-        {
-            return NotFound();
-        }
-        
-    }
-
-    [HttpDelete("{id}/installments")]
-    public async Task<ActionResult> DeleteAllInstallmentFromCard([FromRoute]int id)
-    {
-        await _repository.DeleteAllInstallmentsFromCard(id);
-
-        return NoContent();
+        return NoContent(); 
     }
 
     [HttpPut("{id}/card")]

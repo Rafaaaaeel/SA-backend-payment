@@ -1,10 +1,3 @@
-using PaymentApp.Data;
-using PaymentApp.Models;
-using Microsoft.EntityFrameworkCore;
-using PaymentApp.Interfaces;
-using AutoMapper;
-using PaymentApp.Dto.Card;
-
 namespace PaymentApp.Repositories
 {
     public class CardRepository : ICardRepository
@@ -47,7 +40,7 @@ namespace PaymentApp.Repositories
             return card;
         } 
 
-        public async Task CreateCard(CreateCardDto request)
+        public async Task CreateCard(CardRequest request)
         {   
             Card card = _mapper.Map<Card>(request);
 
@@ -74,7 +67,7 @@ namespace PaymentApp.Repositories
             await Save();
         }
 
-        public async Task UpdateCard(UpdateCardDto request)
+        public async Task UpdateCard(CardRequest request)
         {
             Card card = _mapper.Map<Card>(request);
 

@@ -2,6 +2,8 @@ using PaymentApp.Interfaces;
 using PaymentApp.Repositories;
 using PaymentApp.Helpers;
 
+using Sa.Payment.Api.Interface;
+
 namespace Sa.Payment.Api.IoC;
 
 public static class DependencyResolver

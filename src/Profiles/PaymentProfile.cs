@@ -1,14 +1,14 @@
 using AutoMapper;
-using Microsoft.VisualBasic;
-using PaymentApp.Dto.Card;
 using PaymentApp.Dto.Installment;
 using PaymentApp.Models;
+
+using Sa.Payment.Api.Request;
+using Sa.Payment.Api.Response;
 
 namespace PaymentApp.Profiles
 {
     public class PaymentProfile : Profile
     {
-
         public PaymentProfile()
         {
             InstallmentMapper();
@@ -25,9 +25,8 @@ namespace PaymentApp.Profiles
 
         private void CardMapper() 
         {
-            CreateMap<CreateCardDto, Card>();
-            CreateMap<Card, ReadCardDto>().ForMember(c => c.Id, opt => opt.MapFrom(src => src.Id));
-            CreateMap<UpdateCardDto, Card>();
+            CreateMap<CardRequest, Card>();
+            CreateMap<Card, CardResponse>().ForMember(c => c.Id, opt => opt.MapFrom(src => src.Id));
         }
         
         private void MonthMapper() 

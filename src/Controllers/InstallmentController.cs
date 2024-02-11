@@ -1,10 +1,3 @@
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using PaymentApp.Dto.Installment;
-using PaymentApp.Interfaces;
-using PaymentApp.Models;
-
 namespace PaymentApp.Controllers
 {
     [Route("api/v1/[controller]")]

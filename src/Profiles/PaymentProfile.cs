@@ -1,10 +1,3 @@
-using AutoMapper;
-using PaymentApp.Dto.Installment;
-using PaymentApp.Models;
-
-using Sa.Payment.Api.Request;
-using Sa.Payment.Api.Response;
-
 namespace PaymentApp.Profiles
 {
     public class PaymentProfile : Profile
@@ -26,17 +19,48 @@ namespace PaymentApp.Profiles
         private void CardMapper() 
         {
             CreateMap<CardRequest, Card>();
-            CreateMap<Card, CardResponse>().ForMember(c => c.Id, opt => opt.MapFrom(src => src.Id));
+            CreateMap<Card, CardResponse>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Months, opt => opt.MapFrom(src => MappingMonths(src.Months)));
         }
         
         private void MonthMapper() 
         {
-            CreateMap<Month, ReadMonthDto>();
+            CreateMap<Month, MonthResponse>();
         }
 
         private void YearMapper() 
         {
             CreateMap<Year, ReadYearDto>();
+        }
+
+        private IEnumerable<MonthResponse> MappingMonths(IEnumerable<Month> months) 
+        {
+            return months.Select(m => new MonthResponse { Name = m.Name, Years = MappingYears(m.Year)});
+        }
+
+        private IEnumerable<YearResponse> MappingYears(IEnumerable<Year> years)
+        {
+            return years.Select(y => new YearResponse 
+            {
+                Name = y.Name,
+                Quantity = y.Quantity,
+                Total = y.Total,
+                Installments = MappingInstallments(y.Installments)
+            });
+        }
+
+        private IEnumerable<InstallmentResponse> MappingInstallments(IEnumerable<Installment> installments)
+        {
+            return installments.Select(i => new InstallmentResponse 
+            {
+                Id = i.Id,
+                Name = i.Name,
+                Description = i.Description,
+                Value = i.Value,
+                Total = i.Total,
+                Quantity = i.Quantity
+            });
         }
     }
 }

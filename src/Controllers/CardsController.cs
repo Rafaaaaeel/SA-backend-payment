@@ -1,6 +1,7 @@
 namespace Sa.Payment.Controllers;
 
 [Route("api/v1/[controller]")]
+[Produces(MediaTypeNames.Application.Json)]
 [ApiController]
 [Authorize]
 public class CardsController : ControllerBase 
@@ -34,9 +35,9 @@ public class CardsController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id}/card")]
     [ProducesResponseType(200, Type = typeof(Card))]
-    public async Task<ActionResult<Card>> GetCard(int id)
+    public async Task<ActionResult<CardResponse>> GetCard(int id)
     {
-        Card card  = await _repository.GetCard(id);
+        CardResponse card  = await _repository.GetCard(id);
 
         return Ok(card);
     }
@@ -60,9 +61,9 @@ public class CardsController : ControllerBase
     [ProducesResponseType(404)]
     public async Task<ActionResult> DeleteCard([FromRoute] int id)
     {
-        Card card = await _repository.GetCard(id);
+        // Card card = await _repository.GetCard(id);
 
-        await _repository.DeleteCard(card);
+        // await _repository.DeleteCard(card);
 
         return NoContent(); 
     }

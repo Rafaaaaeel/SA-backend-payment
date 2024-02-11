@@ -19,10 +19,11 @@ public class CardRepository : ICardRepository
                                                     .ToList()
                                                     .FindAll(c => c.EmailOwner == email);
             
+
         return cards;
     }
     
-    public async Task<Card> GetCard(int id) 
+    public async Task<CardResponse> GetCard(int id) 
     {
         Card? card = await _context.Card.Include(c => c.Months)
                                         .ThenInclude(m => m.Year)
@@ -30,8 +31,10 @@ public class CardRepository : ICardRepository
                                         .FirstOrDefaultAsync(c => c.Id == id);
 
         if (card == null) throw new NullReferenceException();
+        
+        CardResponse response = _mapper.Map<CardResponse>(card);
 
-        return card;
+        return response;
     } 
 
     public async Task CreateCard(CardRequest request)

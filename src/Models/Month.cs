@@ -1,10 +1,9 @@
-namespace PaymentApp.Models
+namespace Sa.Payment.Api.Models;
+
+public class Month 
 {
-    public class Month 
-    {
-        public int Id { get; set; }
-        public required string Name { get; set; }
-        public required Card Card { get; set; }
-        public ICollection<Year> Year { get; set; } = new HashSet<Year>();
-    }
+    public int Id { get; set; }
+    public required string Name { get; set; }
+    public required Card Card { get; set; }
+    public ICollection<Year> Year { get; set; } = new HashSet<Year>();
 }

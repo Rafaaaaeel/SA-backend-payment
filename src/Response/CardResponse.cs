@@ -10,5 +10,5 @@ public class CardResponse
     public string? Description { get; set; }
     public decimal Total { get; set; } = 0;
     public required int Expiration { get; set; }
-    public ICollection<ReadMonthDto> installments = new HashSet<ReadMonthDto>();
+    public IEnumerable<MonthResponse> Months = new HashSet<MonthResponse>();
 }

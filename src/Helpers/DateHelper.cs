@@ -1,12 +1,6 @@
-using PaymentApp.Interfaces;
-using System.Globalization;
+namespace Sa.Payment.Api.Helpers;
 
-namespace PaymentApp.Helpers
+public static class DateHelper
 {
-    public class DateHelper : IDateHelper
-    {
-
-        public string GetMonthName(DateTime time) => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(time.Month);
-
-    }
+    public static string GetMonthName(DateTime time) => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(time.Month);
 }

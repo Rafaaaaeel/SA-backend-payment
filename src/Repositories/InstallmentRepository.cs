@@ -3,12 +3,10 @@ namespace PaymentApp.Repositories
     public class InstallmentsRepository : IInstallmentsRepository
     {
         private readonly CardContext _context;
-        private readonly IDateHelper _helper;
 
-        public InstallmentsRepository(CardContext context, IDateHelper helper)
+        public InstallmentsRepository(CardContext context)
         {
             _context = context;
-            _helper = helper;
         }
 
         public async Task CreateInstallmentForCard(Installment request, int id)
@@ -58,7 +56,7 @@ namespace PaymentApp.Repositories
             for (int index = 0; index < quantity; index++)
             {
                 DateTime currentMonth = time.AddMonths(index);
-                string monthName =  _helper.GetMonthName(currentMonth);
+                string monthName =  DateHelper.GetMonthName(currentMonth);
                 string yearName = currentMonth.Year.ToString();
                 Month? month = card.Months.FirstOrDefault(m => m.Name == monthName);
                 

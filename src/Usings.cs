@@ -27,4 +27,4 @@ global using Sa.Payment.Api.Interface;
 global using Sa.Payment.Api.Repositories;
 global using Sa.Payment.Api.Context;
 global using Sa.Payment.Api.Models;
-global using Sa.Payment.Api.Helpers;
+global using Sa.Payment.Api.Extensions;

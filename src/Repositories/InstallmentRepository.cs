@@ -56,7 +56,7 @@ namespace PaymentApp.Repositories
             for (int index = 0; index < quantity; index++)
             {
                 DateTime currentMonth = time.AddMonths(index);
-                string monthName =  DateHelper.GetMonthName(currentMonth);
+                string monthName = currentMonth.GetMonthAbbreviatedName();
                 string yearName = currentMonth.Year.ToString();
                 Month? month = card.Months.FirstOrDefault(m => m.Name == monthName);
                 

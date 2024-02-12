@@ -18,7 +18,7 @@ public class CardsController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
+    [ProducesResponseType(typeof(IEnumerable<Card>), StatusCodes.Status200OK)]
     public ActionResult<IEnumerable<Card>> GetAllCards()
     {
         string email = GetUserEmail();
@@ -34,7 +34,7 @@ public class CardsController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}/card")]
-    [ProducesResponseType(200, Type = typeof(Card))]
+    [ProducesResponseType(typeof(Card), StatusCodes.Status200OK)]
     public async Task<ActionResult<CardResponse>> GetCard(int id)
     {
         CardResponse card  = await _repository.GetCard(id);
@@ -48,7 +48,7 @@ public class CardsController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPost]
-    [ProducesResponseType(204)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> CreateCard([FromBody] CardRequest request)
     {   
         await _repository.CreateCard(request);
@@ -57,8 +57,8 @@ public class CardsController : ControllerBase
     }
 
     [HttpDelete("{id}/card")]
-    [ProducesResponseType(204)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteCard([FromRoute] int id)
     {
         // Card card = await _repository.GetCard(id);
@@ -69,7 +69,7 @@ public class CardsController : ControllerBase
     }
 
     [HttpPut("{id}/card")]
-    [ProducesResponseType(204)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> UpdateCard([FromBody] CardRequest request)
     {
         await _repository.UpdateCard(request);

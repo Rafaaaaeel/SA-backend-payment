@@ -20,7 +20,7 @@ public class Startup(IWebHostEnvironment env)
 
         services.AddEndpointsApiExplorer();
 
-                services.AddSwaggerGen();
+        services.AddSwaggerGen();
         
         services.AddControllers().AddJsonOptions(x => x. JsonSerializerOptions. ReferenceHandler = ReferenceHandler. IgnoreCycles);
 

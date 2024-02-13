@@ -25,3 +25,4 @@ global using Sa.Payment.Api.Extensions;
 global using Sa.Core.ErrorHandling.Exceptions;
 global using Sa.Core.Managers;
 global using Sa.Core.Configurations;
+global using Sa.Payment.Api;

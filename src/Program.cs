@@ -1,7 +1,6 @@
-using Sa.Payment.Api;
-
 IHostBuilder builder = Host.CreateDefaultBuilder(args)
-    .UseContentRoot(Directory.GetCurrentDirectory()).ConfigureWebHostDefaults(webBuilder => 
+    .UseContentRoot(Directory.GetCurrentDirectory())
+    .ConfigureWebHostDefaults(webBuilder => 
     {
         webBuilder.UseStartup<Startup>();
     });

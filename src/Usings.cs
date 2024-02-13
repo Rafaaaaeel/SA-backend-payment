@@ -28,3 +28,5 @@ global using Sa.Payment.Api.Repositories;
 global using Sa.Payment.Api.Context;
 global using Sa.Payment.Api.Models;
 global using Sa.Payment.Api.Extensions;
+
+global using Sa.Core.ErrorHandling.Exceptions;

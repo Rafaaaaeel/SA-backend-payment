@@ -8,8 +8,6 @@ public static class DependencyResolver
 
         services.AddScoped<IInstallmentsRepository, InstallmentsRepository>();
 
-        services.AddScoped<IDateHelper, DateHelper>();
-
         return services;
     }
 }

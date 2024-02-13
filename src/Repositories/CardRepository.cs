@@ -13,24 +13,16 @@ public class CardRepository : ICardRepository
 
     public IEnumerable<Card> GetAllCards(string email)
     {
-        IEnumerable<Card> cards = _context.Card.Include(c => c.Months)
-                                                    .ThenInclude(m => m.Year)
-                                                    .ThenInclude(y => y.Installments)
-                                                    .ToList()
-                                                    .FindAll(c => c.EmailOwner == email);
+        IEnumerable<Card> cards = _context.QueryAllCardsForUser(email);
             
-
         return cards;
     }
     
     public async Task<CardResponse> GetCard(int id) 
     {
-        Card? card = await _context.Card.Include(c => c.Months)
-                                        .ThenInclude(m => m.Year)
-                                        .ThenInclude(y => y.Installments)
-                                        .FirstOrDefaultAsync(c => c.Id == id);
+        Card? card = await _context.QueryCardById(id);
 
-        if (card == null) throw new NullReferenceException();
+        if (card == null) throw new NotFoundException();
         
         CardResponse response = _mapper.Map<CardResponse>(card);
 
@@ -55,9 +47,9 @@ public class CardRepository : ICardRepository
 
     public async Task DeleteAllInstallmentsFromCard(int id)
     {
-        Card? card = await FetchCardById(id);
+        Card? card = await _context.QueryCardById(id);
 
-        if(card == null) throw new NullReferenceException();
+        if(card == null) throw new NotFoundException();
         
         card.Months.ToList().ForEach(m => _context.Month.Remove(m));
 
@@ -79,6 +71,5 @@ public class CardRepository : ICardRepository
         
         return state >= 0;
     }
-
-    private async Task<Card?> FetchCardById(int id) => await _context.Card.Include(c => c.Months).FirstOrDefaultAsync(c => c.Id == id);
+    
 }

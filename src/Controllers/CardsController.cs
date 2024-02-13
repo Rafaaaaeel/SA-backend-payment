@@ -61,8 +61,6 @@ public class CardsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteCard([FromRoute] int id)
     {
-        // Card card = await _repository.GetCard(id);
-
         // await _repository.DeleteCard(card);
 
         return NoContent(); 

@@ -5,7 +5,7 @@ public interface ICardRepository
     IEnumerable<Card> GetAllCards(string email);
     Task<CardResponse> GetCard(int id);
     Task CreateCard(CardRequest request);
-    Task DeleteCard(Card card);
+    Task DeleteCard(int id);
     Task DeleteAllInstallmentsFromCard(int id);
     Task UpdateCard(CardRequest request);
 }

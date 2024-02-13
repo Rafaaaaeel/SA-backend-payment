@@ -20,9 +20,7 @@ public class CardRepository : ICardRepository
     
     public async Task<CardResponse> GetCard(int id) 
     {
-        Card? card = await _context.QueryCardById(id);
-
-        if (card == null) throw new NotFoundException();
+        Card card = await GetCardById(id);
         
         CardResponse response = _mapper.Map<CardResponse>(card);
 
@@ -38,8 +36,10 @@ public class CardRepository : ICardRepository
         await Save();
     }
 
-    public async Task DeleteCard(Card card)
+    public async Task DeleteCard(int id)
     {
+        Card card = await GetCardById(id);
+        
         _context.Remove(card);
 
         await Save();
@@ -47,9 +47,7 @@ public class CardRepository : ICardRepository
 
     public async Task DeleteAllInstallmentsFromCard(int id)
     {
-        Card? card = await _context.QueryCardById(id);
-
-        if(card == null) throw new NotFoundException();
+        Card card = await GetCardById(id);
         
         card.Months.ToList().ForEach(m => _context.Month.Remove(m));
 
@@ -72,4 +70,12 @@ public class CardRepository : ICardRepository
         return state >= 0;
     }
     
+    private async Task<Card> GetCardById(int id)
+    {
+        Card? card = await _context.QueryCardById(id);
+
+        if(card == null) throw new NotFoundException();
+
+        return card;
+    }
 }

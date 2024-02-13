@@ -35,6 +35,7 @@ public class CardsController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id}/card")]
     [ProducesResponseType(typeof(Card), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CardResponse>> GetCard(int id)
     {
         CardResponse card  = await _repository.GetCard(id);
@@ -49,6 +50,7 @@ public class CardsController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> CreateCard([FromBody] CardRequest request)
     {   
         await _repository.CreateCard(request);
@@ -56,16 +58,26 @@ public class CardsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Delete an existed user card.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id}/card")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteCard([FromRoute] int id)
     {
-        // await _repository.DeleteCard(card);
+        await _repository.DeleteCard(id);
 
         return NoContent(); 
     }
 
+    /// <summary>
+    /// Update user card details.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPut("{id}/card")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> UpdateCard([FromBody] CardRequest request)
@@ -75,5 +87,6 @@ public class CardsController : ControllerBase
         return NoContent();
     }
 
+    // TODO: - Remove later
     private string GetUserEmail() => HttpContext.User.Claims.Single(x => x.Type == ClaimTypes.Email).Value;
 }

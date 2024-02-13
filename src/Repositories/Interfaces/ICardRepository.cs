@@ -6,6 +6,6 @@ public interface ICardRepository
     Task<CardResponse> GetCard(int id);
     Task CreateCard(CardRequest request);
     Task DeleteCard(int id);
-    Task DeleteAllInstallmentsFromCard(int id);
+    // Task DeleteAllInstallmentsFromCard(int id);
     Task UpdateCard(CardRequest request);
 }

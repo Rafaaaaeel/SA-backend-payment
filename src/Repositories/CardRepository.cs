@@ -45,14 +45,14 @@ public class CardRepository : ICardRepository
         await Save();
     }
 
-    public async Task DeleteAllInstallmentsFromCard(int id)
-    {
-        Card card = await GetCardById(id);
+    // public async Task DeleteAllInstallmentsFromCard(int id)
+    // {
+    //     Card card = await GetCardById(id);
         
-        card.Months.ToList().ForEach(m => _context.Month.Remove(m));
+    //     card.Months.ToList().ForEach(m => _context.Month.Remove(m));
 
-        await Save();
-    }
+    //     await Save();
+    // }
 
     public async Task UpdateCard(CardRequest request)
     {

@@ -88,8 +88,8 @@ public class CardsController : ControllerBase
     }
 
     /// <summary>
-    /// It deletes all list of Months, 
-    /// our goal is to reset a card to an empty state
+    /// It deletes all list of Months inside the Card object, 
+    /// by doing ths we reset all installmnets
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

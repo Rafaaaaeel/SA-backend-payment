@@ -7,10 +7,7 @@ global using System.Text.Json.Serialization;
 global using System.Security.Claims;
 global using System.Net.Mime;
 global using System.Globalization;
-global using PaymentApp.Dto.Installment;
-global using PaymentApp.Models;
-global using PaymentApp.Interfaces;
-global using PaymentApp.Repositories;
+
 global using Sa.Payment.Api.Request;
 global using Sa.Payment.Api.Response;
 global using Sa.Payment.Api.IoC;
@@ -23,3 +20,7 @@ global using Sa.Core.ErrorHandling.Exceptions;
 global using Sa.Core.Managers;
 global using Sa.Core.Configurations;
 global using Sa.Payment.Api;
+global using Sa.Core.Extensions;
+
+// TODO - REFATORAR
+global using PaymentApp.Dto.Installment;

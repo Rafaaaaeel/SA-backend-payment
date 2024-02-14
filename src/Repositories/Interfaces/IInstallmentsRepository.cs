@@ -1,10 +1,7 @@
-using PaymentApp.Models;
+namespace Sa.Payment.Api.Interface;
 
-namespace PaymentApp.Interfaces
+public interface IInstallmentsRepository
 {
-    public interface IInstallmentsRepository
-    {
-        Task CreateInstallmentForCard(InstallmentRequest request, int id);
-        Task<Installment> GetInstallment(int id);
-    }
+    Task CreateInstallmentForCard(InstallmentRequest request, int id);
+    Task<Installment> GetInstallment(int id);
 }

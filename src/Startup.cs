@@ -1,5 +1,3 @@
-using Sa.Core.Extensions;
-
 namespace Sa.Payment.Api;
 
 public class Startup(IWebHostEnvironment env)
@@ -19,11 +17,8 @@ public class Startup(IWebHostEnvironment env)
         });
 
         services.AddEndpointsApiExplorer();
-
         services.AddSwaggerGen();
-        
         services.AddControllers().AddJsonOptions(x => x. JsonSerializerOptions. ReferenceHandler = ReferenceHandler. IgnoreCycles);
-
         services.AddApiRepositores();
 
         services.AddDbContext<CardContext>(opt => 
@@ -31,11 +26,8 @@ public class Startup(IWebHostEnvironment env)
             opt.UseSqlServer(_appSettings.sql.ConnectionString);
         });
 
-
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
         services.AddCustomAuthentication(_appSettings);
-
     }
 
     public void Configure(IApplicationBuilder app)

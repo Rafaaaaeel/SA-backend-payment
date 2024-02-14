@@ -87,6 +87,20 @@ public class CardsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// It deletes all list of Months, 
+    /// our goal is to reset a card to an empty state
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpDelete("{id}/installments")]
+    public async Task<ActionResult> DeleteInstallmentsFromCardId([FromRoute] int id)
+    {
+        await _repository.DeleteAllInstallmentsFromCard(id);
+
+        return NoContent();
+    }
+
     // TODO: - Remove later
     private string GetUserEmail() => HttpContext.User.Claims.Single(x => x.Type == ClaimTypes.Email).Value;
 }

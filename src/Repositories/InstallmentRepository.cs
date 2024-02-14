@@ -15,30 +15,26 @@ public class InstallmentsRepository : IInstallmentsRepository
     {
         Installment installment = _mapper.Map<Installment>(request);
 
-        Card? card = await FetchCardById(id);
+        Card? card = await _context.QueryCardById(id);
 
-        if (card == null) return;
+        if (card is null) throw new NotFoundException();
         
-        await AppendTotalToCard(card, installment);
+        AppendTotalToCard(card, installment);
 
         await CreateAllInstallmentAtMonths(request.Quantity, request.Date ?? DateTime.Now, card, installment);
+
+        await Save();
     }
 
     public async Task<Installment> GetInstallment(int id) 
     {
         Installment? installment = await _context.Installment.FirstOrDefaultAsync(i => i.Id == id);
 
-        if (installment == null) throw new NullReferenceException();
+        if (installment is null) throw new NotFoundException();
 
         return installment;
     }
-
-    private bool IsTheSameInstallment(Installment right, Installment left) => right.Name == left.Name && right.Value == left.Value && right.Quantity == left.Quantity;
     
-    private async Task<Card?> FetchCardById(int id) => await _context.Card.Include(c => c.Months)
-                                                                            .ThenInclude(m => m.Year)
-                                                                            .FirstOrDefaultAsync(c => c.Id == id);
-
     private async Task CreateAllInstallmentAtMonths(int quantity, DateTime time, Card card, Installment installment)
     {
         for (int index = 0; index < quantity; index++)
@@ -54,7 +50,7 @@ public class InstallmentsRepository : IInstallmentsRepository
 
     private async Task CreateMonth(Month? month, Installment installment, string yearName, string monthName, Card card)
     {
-        if (month != null) await CreateInstallmentWhenMonthAlreadyExist(installment, month, yearName);
+        if (month is not null) await CreateInstallmentWhenMonthAlreadyExist(installment, month, yearName);
 
         await CreateInstallmentWhenMonthDontExisteYet(installment, monthName, card, yearName);
     }
@@ -64,74 +60,61 @@ public class InstallmentsRepository : IInstallmentsRepository
         Year newYear = await CreateYear(month, yearName);    
 
         await CreateInstallment(installment, newYear);
-
-        await Save();
     }
 
     private async Task CreateInstallmentWhenMonthDontExisteYet(Installment installment, string monthName, Card card, string yearName)
     {
-        Month newMonth = new Month() { Name = monthName, Card = card };
+        Month newMonth = new() { Name = monthName, Card = card };
 
         await _context.AddAsync(newMonth);
             
         Year year = await CreateYear(newMonth, yearName);
 
         await CreateInstallment(installment, year);
-
-        await Save();
     }
 
     private async Task<Year> CreateYear(Month month, string yearName) 
     {
         Year? year = month.Year.FirstOrDefault(m => m.Name == yearName);
 
-        if (year != null) return year;
+        if (year is not null) return year;
         
         Year newYear = new Year() { Name = yearName, Month = month };
 
         await _context.AddAsync(newYear);
-
-        await Save();
 
         return newYear;
     }
 
     private async Task CreateInstallment(Installment installment, Year year) {
         
-        await AppendTotalToYear(year, installment);
+        AppendTotalToYear(year, installment);
 
-        Installment newInstallment = new Installment() 
+        Installment installmentToSave = new() 
         { 
             Name = installment.Name, 
             Year = year, 
             Date = installment.Date, 
             Value = installment.Value, 
-            Quantity = installment.Quantity , 
+            Quantity = installment.Quantity, 
             Description = installment.Description, 
             Total = installment.Total
         };
 
-        await _context.AddAsync(newInstallment);
-
-        await Save();
+        await _context.AddAsync(installmentToSave);
     }
 
-    private async Task AppendTotalToCard(Card card, Installment installment)
+    private void AppendTotalToCard(Card card, Installment installment)
     {
         card.Total += installment.Total;
 
         _context.Update(card);
-
-        await Save();
     }
 
-    private async Task AppendTotalToYear(Year year, Installment installment)
+    private void AppendTotalToYear(Year year, Installment installment)
     {
         year.Total += installment.Value;
-
-        _context.Update(year);
-
-        await Save();
     }
+    
     private async Task Save() => await _context.SaveChangesAsync();
 }

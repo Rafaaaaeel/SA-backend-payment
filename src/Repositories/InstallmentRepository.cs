@@ -3,37 +3,25 @@ namespace PaymentApp.Repositories
     public class InstallmentsRepository : IInstallmentsRepository
     {
         private readonly CardContext _context;
+        private readonly IMapper _mapper;
 
-        public InstallmentsRepository(CardContext context)
+        public InstallmentsRepository(CardContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task CreateInstallmentForCard(Installment request, int id)
+        public async Task CreateInstallmentForCard(CreateInstallmentDto request, int id)
         {
+            Installment installment = _mapper.Map<Installment>(request);
+
             Card? card = await FetchCardById(id);
 
             if (card == null) return;
             
-            await AppendTotalToCard(card, request);
+            await AppendTotalToCard(card, installment);
 
-            await CreateAllInstallmentAtMonths(request.Quantity, request.Date ?? DateTime.Now, card, request);
-        }
-
-        public async Task DeleteInstallment(int installmentId, int cardId) 
-        {
-            Card? card = await FetchCardById(cardId);
-            
-            Installment installment = await GetInstallment(installmentId);
-
-            if (card == null) throw new NullReferenceException();
-        }
-
-        public async Task DeleteOccurenceInstallment(int id) 
-        {
-            Installment installment = await GetInstallment(id);
-
-            _context.Remove(installment);
+            await CreateAllInstallmentAtMonths(request.Quantity, request.Date ?? DateTime.Now, card, installment);
         }
 
         public async Task<Installment> GetInstallment(int id) 

@@ -11,7 +11,7 @@ namespace PaymentApp.Repositories
             _mapper = mapper;
         }
 
-        public async Task CreateInstallmentForCard(CreateInstallmentDto request, int id)
+        public async Task CreateInstallmentForCard(InstallmentRequest request, int id)
         {
             Installment installment = _mapper.Map<Installment>(request);
 

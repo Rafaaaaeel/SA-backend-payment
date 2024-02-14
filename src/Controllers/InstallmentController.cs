@@ -13,7 +13,7 @@ public class InstallmentsController : ControllerBase
     }
 
     [HttpPost("{id}")]
-    public async Task<ActionResult> CreateInstallment([FromBody] CreateInstallmentDto request, [FromRoute] int id)
+    public async Task<ActionResult> CreateInstallment([FromBody] InstallmentRequest request, [FromRoute] int id)
     {
         await _repository.CreateInstallmentForCard(request, id);
 

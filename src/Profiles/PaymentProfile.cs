@@ -12,7 +12,7 @@ namespace PaymentApp.Profiles
 
         private void InstallmentMapper() 
         {
-            CreateMap<CreateInstallmentDto, Installment>();
+            CreateMap<InstallmentRequest, Installment>();
             CreateMap<Installment, ReadInstallementDto>();
         }
 

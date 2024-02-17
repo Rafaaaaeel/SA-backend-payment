@@ -23,7 +23,7 @@ public class Startup(IWebHostEnvironment env)
 
         services.AddDbContext<CardContext>(opt => 
         {
-            opt.UseSqlServer(_appSettings.sql.ConnectionString);
+            opt.UseSqlServer(_appSettings.Sql.ConnectionString);
         });
 
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

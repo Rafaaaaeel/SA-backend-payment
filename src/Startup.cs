@@ -18,7 +18,7 @@ public class Startup(IWebHostEnvironment env)
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddControllers().AddJsonOptions(x => x. JsonSerializerOptions. ReferenceHandler = ReferenceHandler. IgnoreCycles);
+        // services.AddControllers().AddJsonOptions(x => x. JsonSerializerOptions. ReferenceHandler = ReferenceHandler. IgnoreCycles);
         services.AddApiRepositores();
 
         services.AddDbContext<CardContext>(opt => 
@@ -32,8 +32,6 @@ public class Startup(IWebHostEnvironment env)
 
     public void Configure(IApplicationBuilder app)
     {
-        app.UseWebSockets();
-        app.UseRouting();
         _startupManager.Configure(app, _appSettings);
     }
 

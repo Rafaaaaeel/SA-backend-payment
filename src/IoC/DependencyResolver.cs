@@ -10,4 +10,14 @@ public static class DependencyResolver
 
         return services;
     }
+
+    public static IServiceCollection AddContexts<T>(this IServiceCollection services, T appSettings) where T : AppSettings
+    {
+        services.AddDbContext<CardContext>(opt => 
+        {
+            opt.UseSqlServer(appSettings.SqlConfiguration.ConnectionString);
+        });
+
+        return services;
+    }
 }

@@ -23,7 +23,7 @@ public class InstallmentsRepository : IInstallmentsRepository
 
         await CreateInstallmentForEachMonth(request.Quantity, request.Date ?? DateTime.Now, card, installment);
 
-        await Save();
+        await _context.SaveChangesAsync();
     }
 
     public async Task<Installment> GetInstallment(int id) 
@@ -116,5 +116,4 @@ public class InstallmentsRepository : IInstallmentsRepository
         year.Total += installment.Value;
     }
     
-    private async Task Save() => await _context.SaveChangesAsync();
 }

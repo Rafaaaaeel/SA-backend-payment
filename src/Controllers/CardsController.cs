@@ -21,7 +21,7 @@ public class CardsController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<Card>), StatusCodes.Status200OK)]
     public ActionResult<IEnumerable<Card>> GetAllCards()
     {
-        string email = GetUserEmail();
+        string email = User.GetEmail();
 
         IEnumerable<Card> cards = _repository.GetAllCards(email);
 
@@ -101,6 +101,4 @@ public class CardsController : ControllerBase
         return NoContent();
     }
 
-    // TODO: - Remove later
-    private string GetUserEmail() => HttpContext.User.Claims.Single(x => x.Type == ClaimTypes.Email).Value;
 }

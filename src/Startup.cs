@@ -8,25 +8,12 @@ public class Startup(IWebHostEnvironment env)
     public virtual void ConfigureServices(IServiceCollection services)
     {
         _appSettings = _startupManager.GetSettings().Result;
-
-        services.AddControllers()
-            .AddNewtonsoftJson(options =>
-        {
-            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; 
-            options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; 
-        });
-
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
-        // services.AddControllers().AddJsonOptions(x => x. JsonSerializerOptions. ReferenceHandler = ReferenceHandler. IgnoreCycles);
+       
+        services.AddDefaultServices(_appSettings); 
+        services.AddDefaultDependencies(_appSettings);
         services.AddApiRepositores();
+        services.AddContexts(_appSettings);
 
-        services.AddDbContext<CardContext>(opt => 
-        {
-            opt.UseSqlServer(_appSettings.Sql.ConnectionString);
-        });
-
-        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.AddCustomAuthentication(_appSettings);
     }
 

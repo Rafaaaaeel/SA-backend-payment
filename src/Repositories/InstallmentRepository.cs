@@ -44,25 +44,25 @@ public class InstallmentsRepository : IInstallmentsRepository
             string yearName = currentMonth.Year.ToString();
             Month? month = card.Months.FirstOrDefault(m => m.Name == monthName);
             
-            await CreateMonth(month, installment, yearName, monthName, card);
+            await CreateMonth(index, month, installment, yearName, monthName, card);
         }
     }
 
-    private async Task CreateMonth(Month? month, Installment installment, string yearName, string monthName, Card card)
+    private async Task CreateMonth(int index, Month? month, Installment installment, string yearName, string monthName, Card card)
     {
-        if (month is not null) await CreateInstallmentWhenMonthAlreadyExist(installment, month, yearName);
+        if (month is not null) await CreateInstallmentWhenMonthAlreadyExist(index, installment, month, yearName);
 
-        await CreateInstallmentWhenMonthDoesNotExist(installment, monthName, card, yearName);
+        await CreateInstallmentWhenMonthDoesNotExist(index, installment, monthName, card, yearName);
     }
 
-    private async Task CreateInstallmentWhenMonthAlreadyExist(Installment installment, Month month, string yearName)
+    private async Task CreateInstallmentWhenMonthAlreadyExist(int index, Installment installment, Month month, string yearName)
     {
         Year newYear = await GetYear(month, yearName);    
 
-        await CreateInstallment(installment, newYear);
+        await CreateInstallment(index, installment, newYear);
     }
 
-    private async Task CreateInstallmentWhenMonthDoesNotExist(Installment installment, string monthName, Card card, string yearName)
+    private async Task CreateInstallmentWhenMonthDoesNotExist(int index, Installment installment, string monthName, Card card, string yearName)
     {
         Month newMonth = new() { Name = monthName, Card = card };
 
@@ -70,7 +70,7 @@ public class InstallmentsRepository : IInstallmentsRepository
             
         Year year = await GetYear(newMonth, yearName);
 
-        await CreateInstallment(installment, year);
+        await CreateInstallment(index, installment, year);
     }
 
     private async Task<Year> GetYear(Month month, string yearName) 
@@ -86,7 +86,7 @@ public class InstallmentsRepository : IInstallmentsRepository
         return newYear;
     }
 
-    private async Task CreateInstallment(Installment installment, Year year) {
+    private async Task CreateInstallment(int index, Installment installment, Year year) {
         
         AppendTotalToYear(year, installment);
 
@@ -97,6 +97,7 @@ public class InstallmentsRepository : IInstallmentsRepository
             Date = installment.Date, 
             Value = installment.Value, 
             Quantity = installment.Quantity, 
+            CurrentParcel = index + 1,
             Description = installment.Description, 
             Total = installment.Total
         };

@@ -6,7 +6,7 @@ public static class DependencyResolver
     {
         services.AddScoped<ICardRepository, CardRepository>();
         services.AddScoped<IInstallmentsRepository, InstallmentsRepository>();
-        services.AddSingleton<ITransactionsRepository, TransactionsRepository>();
+        services.AddScoped<ITransactionsRepository, TransactionsRepository>();
 
         return services;
     }

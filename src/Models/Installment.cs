@@ -8,6 +8,7 @@ public class Installment
     public decimal Value { get; set; }
     public decimal Total { get; set; }
     public required int Quantity { get; set; }
+    public int CurrentParcel { get; set; } = 0;
     public DateTime? Date { get; set; }
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     public required Year Year { get; set; }

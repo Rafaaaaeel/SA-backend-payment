@@ -5,8 +5,8 @@ public static class DependencyResolver
     public static IServiceCollection AddApiRepositores(this IServiceCollection services)    
     {
         services.AddScoped<ICardRepository, CardRepository>();
-
         services.AddScoped<IInstallmentsRepository, InstallmentsRepository>();
+        services.AddSingleton<ITransactionsRepository, TransactionsRepository>();
 
         return services;
     }

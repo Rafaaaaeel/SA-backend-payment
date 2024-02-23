@@ -49,7 +49,7 @@ public class CardRepository : ICardRepository
     {
         Card card = await GetCardById(id);
         
-        card.Months.ToList().ForEach(m => _context.Month.Remove(m));
+        card.Months = [];
 
         await _context.SaveChangesAsync();
     }

@@ -5,19 +5,37 @@ namespace Sa.Payment.Controllers;
 [Authorize]
 public class SummaryController : ControllerBase
 {
-    private readonly ITransactionsRepository _repository;
+    private readonly ITransactionsRepository _transactionsRepository;
+    private readonly ICardRepository _cardRepository;
     
-    public SummaryController(ITransactionsRepository repository)
+    public SummaryController(ITransactionsRepository transactionsRepository, ICardRepository cardRepository)
     {
-        _repository = repository;
+        _transactionsRepository = transactionsRepository;
+        _cardRepository = cardRepository;
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<TransactionsResponse>> GetLastTransactions([FromRoute] int id)
+    [HttpGet("{id}/transactions")]
+    public async Task<ActionResult<TransactionsResponse>> GetExpiringTransactions([FromRoute] int id)
     {
-        TransactionsResponse response = await _repository.GetLastTransactionsFromCard(id);
+        TransactionsResponse response = await _transactionsRepository.GetExpiringTransactionsFromCard(id);
 
         return Ok(response);
+    }
+
+    [HttpGet]
+    public ActionResult<IEnumerable<Card>> GetUserCards()
+    {
+        IEnumerable<Card> cards = _cardRepository.GetAllCards(User.GetEmail());
+
+        return Ok(cards);
+    }
+
+    [HttpGet("{id}/installments")]
+    public async Task<ActionResult<IEnumerable<InstallmentResponse>>> GetLastTransactions([FromRoute] int id)
+    {
+        IEnumerable<InstallmentResponse> installments = await _transactionsRepository.GetLastTransactionsFromCard(id);
+
+        return Ok(installments);
     }
 
 }

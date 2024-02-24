@@ -13,26 +13,50 @@ public class TransactionsRepository : ITransactionsRepository
         _cardRepository = cardRepository;
     }
 
-    public async Task<TransactionsResponse> GetLastTransactionsFromCard(int cardId) 
+    public async Task<TransactionsResponse> GetExpiringTransactionsFromCard(int cardId) 
     {
         CardResponse card = await _cardRepository.GetCard(cardId);
         
-        YearResponse year = card
-            .Months.First(m => m.Name == DateTime.UtcNow.GetMonthAbbreviatedName())
-            .Years.First(y => y.Name == DateTime.UtcNow.Year.ToString());
+        IEnumerable<InstallmentResponse> installments = InstallmentHelper.GetInstallmentsFromTheCurrentMonthInCard(card);
 
-        IEnumerable<InstallmentResponse> installments = year.Installments.Where(installment => TransactionHelper.IsAlmostFinish(installment));
-
-        TransactionsResponse response = new() { LastTransactions = [] };
+        TransactionsResponse response = new() { Expiring = [] };
 
         foreach(var installment in installments)
         {
-            response.LastTransactions.Add(new Transaction() 
+            if (installment.Quantity == 1) continue;
+
+            response.Expiring.Add(new Transaction() 
             {
                 Name = installment.Name,
                 LeftQuantity = installment.Quantity - installment.CurrentParcel,
                 Description = TransactionHelper.FormatDescription(installment)
             });
+        }
+
+        return response;
+    }
+
+    public async Task<IEnumerable<InstallmentResponse>> GetLastTransactionsFromCard(int cardId)
+    {
+        CardResponse card = await _cardRepository.GetCard(cardId);
+
+        DateTime today = DateTime.Today;
+        DayOfWeek currentDayOfWeek = today.DayOfWeek;
+        int daysToSubtract = (int)currentDayOfWeek - 1;
+        DateTime startOfWeek = today.AddDays(-daysToSubtract);
+        DateTime endOfWeek = startOfWeek.AddDays(7);
+        
+        IEnumerable<InstallmentResponse> installments = InstallmentHelper
+            .GetInstallmentsFromTheCurrentMonthInCard(card)
+            .Where(i => i.CreatedDate >= startOfWeek && i.CreatedDate < endOfWeek);
+
+        ICollection<InstallmentResponse> response = [];
+        
+        int length = installments.ToList().Count > 5 ? 4 : installments.ToList().Count;
+
+        for (int index = 0; index <= length; index++)
+        {   
+            response.Add(installments.ToList()[index]);
         }
 
         return response;

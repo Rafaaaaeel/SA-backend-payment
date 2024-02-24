@@ -9,4 +9,5 @@ public class InstallmentResponse
     public decimal Total { get; set; }
     public required int Quantity { get; set; }
     public int CurrentParcel { get; set; }
+    public DateTime? CreatedDate { get; set; }
 }

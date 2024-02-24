@@ -2,5 +2,6 @@ namespace Sa.Payment.Api.Interface;
 
 public interface ITransactionsRepository
 {
-    Task<TransactionsResponse> GetLastTransactionsFromCard(int cardId);
+    Task<TransactionsResponse> GetExpiringTransactionsFromCard(int cardId);
+    Task<IEnumerable<InstallmentResponse>> GetLastTransactionsFromCard(int cardId);
 }

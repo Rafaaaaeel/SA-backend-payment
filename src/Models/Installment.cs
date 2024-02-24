@@ -7,6 +7,7 @@ public class Installment
     public string? Description { get; set; }
     public decimal Value { get; set; }
     public decimal Total { get; set; }
+    public decimal MaxExpanse { get; set; } = 0;
     public required int Quantity { get; set; }
     public int CurrentParcel { get; set; } = 0;
     public DateTime? Date { get; set; }

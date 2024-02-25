@@ -7,6 +7,7 @@ public static class DependencyResolver
         services.AddScoped<ICardRepository, CardRepository>();
         services.AddScoped<IInstallmentsRepository, InstallmentsRepository>();
         services.AddScoped<ITransactionsRepository, TransactionsRepository>();
+        services.AddScoped<ISummaryRepository, SummaryRepository>();
 
         return services;
     }

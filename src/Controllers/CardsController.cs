@@ -1,4 +1,4 @@
-namespace Sa.Payment.Controllers;
+namespace Sa.Payment.Api.Controllers;
 
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]

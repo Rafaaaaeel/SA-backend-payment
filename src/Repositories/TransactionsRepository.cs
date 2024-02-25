@@ -52,6 +52,8 @@ public class TransactionsRepository : ITransactionsRepository
         
         int length = installments.ToList().Count > 5 ? 4 : installments.ToList().Count;
 
+        if (length == 0) return []; 
+
         for (int index = 0; index <= length; index++)
         {   
             response.Add(installments.ToList()[index]);

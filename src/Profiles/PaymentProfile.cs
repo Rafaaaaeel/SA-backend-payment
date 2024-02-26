@@ -60,7 +60,7 @@ namespace PaymentApp.Profiles
                 Total = i.Total,
                 Quantity = i.Quantity,
                 CurrentParcel = i.CurrentParcel,
-                CreatedDate = i.CreatedDate
+                CreatedDate = i.Date
             });
         }
     }

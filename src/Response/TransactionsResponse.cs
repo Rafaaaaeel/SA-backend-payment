@@ -2,5 +2,6 @@ namespace Sa.Payment.Api.Response;
 
 public class TransactionsResponse
 {
-    public required ICollection<Transaction> Expiring { get; set; }
+    public ICollection<InstallmentResponse>? LastTransaction { get; set; }
+    public ICollection<Transaction>? Expiring { get; set; }
 }

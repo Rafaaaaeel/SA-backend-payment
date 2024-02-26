@@ -1,3 +1,5 @@
+using Microsoft.IdentityModel.Tokens;
+
 namespace Sa.Payment.Api.Repositories;
 
 public class TransactionsRepository : ITransactionsRepository
@@ -15,7 +17,7 @@ public class TransactionsRepository : ITransactionsRepository
     {
         CardResponse card = await _cardRepository.GetCard(cardId);
         
-        IEnumerable<InstallmentResponse> installments = InstallmentHelper.GetInstallmentsFromTheCurrentMonthInCard(card);
+        IEnumerable<InstallmentResponse> installments = InstallmentHelper.GetInstallmentsFromTheCurrentMonthExpiringInCard(card);
 
         TransactionsResponse response = new() { Expiring = [] };
 
@@ -34,7 +36,7 @@ public class TransactionsRepository : ITransactionsRepository
         return response;
     }
 
-    public async Task<IEnumerable<InstallmentResponse>> GetLastTransactionsFromCard(int cardId)
+    public async Task<TransactionsResponse> GetLastTransactionsFromCard(int cardId)
     {
         CardResponse card = await _cardRepository.GetCard(cardId);
 
@@ -43,23 +45,25 @@ public class TransactionsRepository : ITransactionsRepository
         int daysToSubtract = (int)currentDayOfWeek - 1;
         DateTime startOfWeek = today.AddDays(-daysToSubtract);
         DateTime endOfWeek = startOfWeek.AddDays(7);
+
+        if (card.Months.ToList().IsNullOrEmpty()) return new TransactionsResponse();
         
         IEnumerable<InstallmentResponse> installments = InstallmentHelper
-            .GetInstallmentsFromTheCurrentMonthInCard(card)
+            .GetLastInstallmentsFromTheCurrentMonthInCard(card)
             .Where(i => i.CreatedDate >= startOfWeek && i.CreatedDate < endOfWeek);
 
         ICollection<InstallmentResponse> response = [];
         
         int length = installments.ToList().Count > 5 ? 4 : installments.ToList().Count;
 
-        if (length == 0) return []; 
+        if (length == 0) return new TransactionsResponse();
 
-        for (int index = 0; index <= length; index++)
+        for (int index = 0; index < length; index++)
         {   
             response.Add(installments.ToList()[index]);
         }
-
-        return response;
+        
+        return new TransactionsResponse() { LastTransaction = response };
     }
 
 }

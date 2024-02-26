@@ -1,3 +1,5 @@
+using Microsoft.IdentityModel.Tokens;
+
 namespace Sa.Payment.Api.Controllers;
 
 [Route("api/v1/[controller]")]
@@ -6,12 +8,10 @@ namespace Sa.Payment.Api.Controllers;
 public class TransactionController : ControllerBase
 {
     private readonly ITransactionsRepository _transactionsRepository;
-    private readonly ICardRepository _cardRepository;
     
-    public TransactionController(ITransactionsRepository transactionsRepository, ICardRepository cardRepository)
+    public TransactionController(ITransactionsRepository transactionsRepository)
     {
         _transactionsRepository = transactionsRepository;
-        _cardRepository = cardRepository;
     }
 
     [HttpGet("{id}/expiring/transactions")]
@@ -19,15 +19,19 @@ public class TransactionController : ControllerBase
     {
         TransactionsResponse response = await _transactionsRepository.GetExpiringTransactionsFromCard(id);
 
+        if (response.Expiring.IsNullOrEmpty()) NoContent();
+
         return Ok(response);
     }
 
-    [HttpGet("/{id}/last/installments")]
-    public async Task<ActionResult<IEnumerable<InstallmentResponse>>> GetLastTransactions([FromRoute] int id)
+    [HttpGet("{id}/last/installments")]
+    public async Task<ActionResult<TransactionsResponse>> GetLastTransactions([FromRoute] int id)
     {
-        IEnumerable<InstallmentResponse> installments = await _transactionsRepository.GetLastTransactionsFromCard(id);
+        TransactionsResponse response = await _transactionsRepository.GetLastTransactionsFromCard(id);
+        
+        if (response.LastTransaction.IsNullOrEmpty()) NoContent();
 
-        return Ok(installments);
+        return Ok(response);
     }
 
 }

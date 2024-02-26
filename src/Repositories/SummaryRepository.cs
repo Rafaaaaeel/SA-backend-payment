@@ -16,14 +16,32 @@ public class SummaryRepository : ISummaryRepository
     public async Task<SummaryResponse> GetSummary(string email)
     {
         IEnumerable<Card> cards = _cardRepository.GetAllCards(email);
-
-        if (cards.ToList().IsNullOrEmpty()) return new SummaryResponse() { Cards = cards };
         
-        int cardId = cards.ToList()[0].Id;
+        if (cards.ToList().IsNullOrEmpty()) return new SummaryResponse() { Cards = cards };
 
-        IEnumerable<InstallmentResponse> lastTransactions = await _transactionsRepository.GetLastTransactionsFromCard(cardId);
-        TransactionsResponse expiring = await _transactionsRepository.GetExpiringTransactionsFromCard(cardId);
+        decimal currentMonthTotal = 0;
 
-        return new SummaryResponse() { Cards = cards, ExpiringInstallments = expiring, LastTrasactions = lastTransactions};
+        foreach (var card in cards)
+        {
+            Month? month = card.Months.FirstOrDefault(m => m.Name == DateTime.UtcNow.GetMonthAbbreviatedName());
+
+            if (month is null) continue;
+
+            Year? year = month.Year.FirstOrDefault(y => y.Name == DateTime.UtcNow.Year.ToString());
+
+            if (year is null) continue;
+
+            currentMonthTotal += year.Total;
+        }
+
+        Card firstCard = cards.ToList()[0];
+        
+        if (firstCard.Months.ToList().IsNullOrEmpty()) return new SummaryResponse() { Cards = cards }; 
+
+        IEnumerable<InstallmentResponse> lastTransactions = await _transactionsRepository.GetLastTransactionsFromCard(firstCard.Id);
+
+        TransactionsResponse expiring = await _transactionsRepository.GetExpiringTransactionsFromCard(firstCard.Id);
+
+        return new SummaryResponse() { Total = currentMonthTotal, Cards = cards, ExpiringInstallments = expiring, LastTrasactions = lastTransactions};
     }
 }
